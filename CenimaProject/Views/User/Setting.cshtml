@@ -1,0 +1,42 @@
+﻿@model UsersDB
+@{
+	ViewData["Title"] = "User Setting";
+}
+
+
+</div>
+<div class="container mt-5">
+    <h2 class="text-center mb-4" id="Add">User Settings</h2>
+    <form asp-controller="User" asp-action="Setting" method="post" enctype="multipart/form-data">
+        @{
+            UsersDB User = ViewBag.UserSetting;
+            if (User != null)
+            {
+                <div class="form-group mb-3">
+                    <label for="User Name">Name</label>
+                    <input type="text" class="form-control" id="User Name" name="UserName" value ="@User.UserName" placeholder="@User.UserName" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="User Email">Email</label>
+                    <input type="Email" class="form-control" id="User Email" name="Email" value ="@User.Email" placeholder="@User.Email" required>
+                </div>
+                  <div class="form-group mb-3">
+                    <label for="User Phone">Phone Number</label>
+                    <input type="text" class="form-control" id="User phone" name="PhoneNumber" value ="@User.PhoneNumber" placeholder="@User.PhoneNumber" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="User OPassword">Old Password</label>
+                    <input type="password" class="form-control" id="User OPassword" name="OldPassword" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="User NPassword">New Password</label>
+                    <input type="password" class="form-control" id="User NPassword" name="Password" required>
+                </div>
+            }
+        }
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-lg btn-primary">Change</button>
+        </div>
+    </form>
+</div>
+

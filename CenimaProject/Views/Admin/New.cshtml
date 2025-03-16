@@ -1,0 +1,43 @@
+﻿@model UsersDB
+@{
+	ViewData["Title"] = "New Usrs";
+}
+<form method="post">
+	<dev class="border p-3 mt-4">
+		<dev class="row pb-3">
+			<h2 class="text-primary">Add New Users</h2>
+			<hr />
+		</dev>
+		<dev class="mb-3">
+			<label asp-for="UserName"></label>
+			<input asp-for="UserName" class="form-control"/>
+			<span asp-validation-for="UserName" class="text-danger"></span>
+
+		</dev>
+		<dev class="mb-3">
+			<label asp-for="Email"></label>
+			<input asp-for="Email" class="form-control"/>
+			<span asp-validation-for="Email" class="text-danger"></span>
+
+		</dev>
+		<dev class="mb-3">
+			<label asp-for="PhoneNumber">Phone Number</label>
+			<input asp-for="PhoneNumber" class="form-control"/>
+			<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+		</dev>
+		<dev class="mb-3">
+			<label asp-for="Password"></label>
+			<input asp-for="Password" class="form-control"/>
+			<span asp-validation-for="Password" class="text-danger"></span>
+		</dev>
+		<dev class="mb-3">
+			<label asp-for="RulesID"></label>
+			<input asp-for="RulesID" class="form-control"/>
+			<span asp-validation-for="RulesID" class="text-danger"></span>
+		</dev>
+
+		<button type="Submit" class="btn btn-primary" style="width:150px">Save</button>
+	</dev>
+
+</form>

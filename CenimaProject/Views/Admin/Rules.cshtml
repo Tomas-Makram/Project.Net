@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Rules";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let inputField = document.getElementById("inputRule");
+            let errorMessage = document.getElementById("errorMessage");
+            let successMessage = document.getElementById("successMessage");
+
+            inputField.addEventListener("input", function () {
+                if (inputField.value.trim() !== "") {
+                    inputField.classList.remove("is-invalid");
+                    inputField.classList.add("is-valid");
+                    errorMessage.style.display = "none";
+                    successMessage.style.display = "block";
+                } else {
+                    inputField.classList.remove("is-valid");
+                    inputField.classList.add("is-invalid");
+                    errorMessage.style.display = "block";
+                    successMessage.style.display = "none";
+                }
+            });
+
+            document.getElementById("ruleForm").addEventListener("submit", function (event) {
+                if (inputField.value.trim() === "") {
+                    event.preventDefault();
+                    inputField.classList.add("is-invalid");
+                    errorMessage.style.display = "block";
+                    successMessage.style.display = "none";
+                }
+            });
+        });
+    </script>
+    <style>
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rules</h1>
+<table class="table table-hover" style="text-align: center;">
+  <thead>
+       <tr class="table-danger">
+      <th scope="col">Name</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+        @{
+            bool ch = false;
+            if (ViewBag.Rules != null)
+            {
+                foreach (var Data in ViewBag.Rules)
+                {
+                    if (ch)
+                    {
+                                    <tr class="table-info">
+                                        <form methos="post" asp-controller="Admin" asp-action="Rules">
+                                        <td>@Data.RulesName</td>
+                                        <input type="hidden" name="id" value="@Data.RulesID" />
+                                        <td><button type="submit" class="btn btn-danger" fdprocessedid="n92jec">Delete</button></td></form>
+                                    </tr>
+                    }
+                    else
+                    {
+                                    <tr class="table-success">
+                                        <form methos="post" asp-controller="Admin" asp-action="Rules">
+                                        <td>@Data.RulesName</td>
+                                        <input type="hidden" name="id" value="@Data.RulesID" />
+                                        <td><button type="submit" class="btn btn-danger" fdprocessedid="n92jec">Delete</button></td></form>
+                                    </tr>
+                    }
+                    ch = !ch;
+                }
+            }
+        }
+  </tbody>
+</table>
+<div class="container">
+    <form id="ruleForm" method="post" asp-controller="Admin" asp-action="NewRules">
+        <h2><label class="form-label" for="inputRule" style="font-weight: bold;">New Rule</label></h2>
+        <input name="newRule" type="text" class="form-control is-invalid" id="inputRule">
+        <div class="invalid-feedback" id="errorMessage">Please enter a valid rule.</div>
+        <div class="valid-feedback" id="successMessage" style="display: none;">Looks good!</div>
+    <button class="btn btn-primary" type="submit" id="button-addon2" fdprocessedid="3g57p8">Add New Rule</button>
+    </form>
+</div>
+
+</body>
+</html>

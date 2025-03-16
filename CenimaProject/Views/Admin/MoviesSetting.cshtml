@@ -1,0 +1,244 @@
+﻿@model MoviesDB
+@{
+    ViewData["Title"] = "Movies Setting";
+}
+<br>
+<div class="d-grid gap-2">
+  <a type="button" href="#Add" class="btn btn-primary" fdprocessedid="2yhc3i">Add New</a>
+  <a type="button" href="#Show" class="btn btn-primary" fdprocessedid="wuhytn">Show</a>
+  <a type="button" href="#Update" class="btn btn-primary" fdprocessedid="ko818b">Update</a>
+  <a type="button" href="#Show" class="btn btn-primary" fdprocessedid="2yhc3i">Delete</a>
+
+</div>
+<div class="container mt-5">
+    <h2 class="text-center mb-4" id="Add">Add New Movie</h2>
+    <form asp-controller="Admin" asp-action="AddMovie" method="post" enctype="multipart/form-data">
+
+        <!-- اسم الفيلم -->
+        <div class="form-group mb-3">
+            <label for="movieTitle">Movie Name</label>
+            <input type="text" class="form-control" id="movieTitle" name="MovieName" placeholder="Enter movie name" required>
+        </div>
+        </script>
+        <!-- وصف الفيلم -->
+        <div class="form-group mb-3">
+            <label for="movieDescription">Description</label>
+            <textarea class="form-control" id="movieDescription" name="MovieDescription" rows="3" placeholder="Enter a brief description" required></textarea>
+        </div>
+
+       @*  <!-- تاريخ الإصدار -->
+        <div class="form-group mb-3">
+            <label for="releaseDate">تاريخ الإصدار</label>
+            <input type="date" class="form-control" id="releaseDate" name="ReleaseDate" required>
+        </div> *@
+
+        <!-- التصنيف -->
+        <div class="form-group mb-3">
+            <label for="movieCategory">Genre Movie</label>
+            <select class="form-select" id="movieCategory" name="MovieGenre" required>
+                <option value="Action">Action</option>
+                <option value="Drama">Drama</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Horror">Horror</option>
+                <option value="Science fiction">Science fiction</option>
+            </select>
+        </div>
+
+        <!-- لغة الفيلم -->
+        <div class="form-group mb-3">
+            <label for="movieLanguage">Movie Language</label>
+            <select class="form-select" id="movieLanguage" name="MovieLaguage" required>
+                <option value="English">English</option>
+                <option value="Arabic">Arabic</option>
+                <option value="French">French</option>
+                <option value="Spanish">Spanish</option>
+                <option value="German">German</option>
+                <option value="Spanish">Hindi</option>
+
+            </select>
+        </div>
+
+        <!-- ترجمة الفيلم -->
+        <div class="form-group mb-3">
+            <label for="movieSubtitle">Movie Subtitle</label>
+            <select class="form-select" id="movieSubtitle" name="MovieSubTitle" required>
+                <option value="English">English</option>
+                <option value="Arabic">Arabic</option>
+                <option value="French">French</option>
+                <option value="Spanish">Spanish</option>
+                <option value="German">German</option>
+                <option value="Spanish">Hindi</option>
+            </select>
+        </div>
+
+        <!-- مدة العرض -->
+        <div class="form-group mb-3">
+            <label for="duration">Duration</label>
+            <input type="number" class="form-control" id="duration" name="MovieDuration" placeholder="Same: 120 minutes" required>
+        </div>
+
+        <!-- تحميل صورة الفيلم -->
+        <div class="form-group mb-3">
+            <label for="movieImage">Poster URL</label>
+            <input class="form-control" type="link" id="movieImage" name="MoviePosterURL" placeholder="https:\\Poster-Image.com" required>
+        </div>
+
+        <!-- زر الإرسال -->
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-lg btn-primary">Add</button>
+        </div>
+    </form>
+</div>
+
+
+<br>
+</br>
+<br>
+</br>
+<h2 id="Show" class="text-center mb-4" > List Movies</h2>
+<table class="table table-hover">
+  <thead>
+    <tr class="table-dark">
+      <th scope="col">Movie Name</th>
+      <th scope="col">Movie Genre</th>
+      <th scope="col">Movie Duration</th>
+      <th scope="col">Movie Description</th>
+      <th scope="col">Movie Languages</th>
+      <th scope="col">Movie Subtitle</th>
+      <th scope="col">Movie Poster URL</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+        @{
+            bool ch = false;
+            if (ViewBag.Movies != null)
+            {
+              foreach (MoviesDB Movie in ViewBag.Movies)
+                {
+                    if (ch)
+                    {
+                        <tr class="table-success">
+                        <th scope="row">@Movie.MovieName</th>
+                        <td>@Movie.MovieGenre</td>
+                        <td>@Movie.MovieDuration</td>
+                        <td>@Movie.MovieDescription</td>
+                        <td>@Movie.MovieLaguage</td>
+                        <td>@Movie.MovieSubTitle</td>
+                        <td>@Movie.MoviePosterURL</td>
+                        <td><form method="post" asp-controller="Admin" asp-action="DeleteMovie">
+                        <input type="hidden" name="ID" value="@Movie.MovieID"/>
+                        <button class="badge rounded-pill bg-danger" type="submit" fdprocessedid="swj7nf">Delete</button></form>
+                        <br>
+                        <form method="post" asp-controller="Admin" asp-action="UpdateMovie">
+                        <input type="hidden" name="ID" value="@Movie.MovieID"/>
+                        <button class="badge rounded-pill bg-primary" type="submit" fdprocessedid="swj7nf">Update</button></form></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class="table-info">
+                        <th scope="row">@Movie.MovieName</th>
+                        <td>@Movie.MovieGenre</td>
+                        <td>@Movie.MovieDuration</td>
+                        <td>@Movie.MovieDescription</td>
+                        <td>@Movie.MovieLaguage</td>
+                        <td>@Movie.MovieSubTitle</td>
+                        <td>@Movie.MoviePosterURL</td>
+                        <td><form method="post" asp-controller="Admin" asp-action="DeleteMovie">
+                        <input type="hidden" name="ID" value="@Movie.MovieID"/>
+                        <button class="badge rounded-pill bg-danger" type="submit" fdprocessedid="swj7nf">Delete</button></form>
+                        <br>
+                        <form method="post" asp-controller="Admin" asp-action="UpdateMovie">
+                        <input type="hidden" name="ID" value="@Movie.MovieID"/>
+                        <button class="badge rounded-pill bg-primary" type="submit" fdprocessedid="swj7nf">Update</button></form></td>
+                        </tr>
+                    }
+                    ch = !ch;
+                }
+            }
+        }
+    </tbody>
+</table>
+
+
+<br>
+</br>
+<br>
+<div class="container mt-5">
+    <h2 id="Update" class="text-center mb-4">Update Data Movie</h2>
+    <form asp-controller="Admin" asp-action="UpdateMovieSetting" method="post" enctype="multipart/form-data">
+        
+        @if ((MoviesDB)TempData["UpdateMovie"] != null)
+        {
+            MoviesDB data = (MoviesDB)TempData["UpdateMovie"];
+            <input type="hidden" class="form-control" id="movieTitleUpdate" Value="@data.MovieID" name="MovieID" placeholder="Enter movie name" required>
+            <!-- اسم الفيلم -->
+            <div class="form-group mb-3">
+                <label for="movieTitle">Movie Name</label>
+                <input type="text" class="form-control" id="movieTitleUpdate" Value="@data.MovieName" name="MovieName" placeholder="Enter movie name" required>
+            </div>
+                 <!-- وصف الفيلم -->
+            <div class="form-group mb-3">
+                <label for="movieDescription">Description</label>
+                    <textarea class="form-control" id="movieDescription" name="MovieDescription" rows="3" placeholder="Enter a brief description" required> @data.MovieDescription</textarea>
+            </div>
+
+            <!-- التصنيف -->
+            <div class="form-group mb-3">
+                <label for="movieCategory">Genre Movie</label>
+                <select class="form-select" id="movieCategory"  Value="@data.MovieGenre" name="MovieGenre" required>
+                    <option value="Action">Action</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Horror">Horror</option>
+                    <option value="Science fiction">Science fiction</option>
+                </select>
+            </div>
+
+            <!-- لغة الفيلم -->
+            <div class="form-group mb-3">
+                <label for="movieLanguage">Movie Language</label>
+                <select class="form-select" id="movieLanguage"  Value="@data.MovieLaguage" name="MovieLaguage" required>
+                    <option value="English">English</option>
+                    <option value="Arabic">Arabic</option>
+                    <option value="French">French</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="German">German</option>
+                    <option value="Spanish">Hindi</option>
+
+                </select>
+            </div>
+
+            <!-- ترجمة الفيلم -->
+            <div class="form-group mb-3">
+                <label for="movieSubtitle">Movie Subtitle</label>
+                    <select class="form-select" id="movieSubtitle" Value="@data.MovieSubTitle" name="MovieSubTitle" required>
+                    <option value="English">English</option>
+                    <option value="Arabic">Arabic</option>
+                    <option value="French">French</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="German">German</option>
+                    <option value="Spanish">Hindi</option>
+                </select>
+            </div>
+
+            <!-- مدة العرض -->
+            <div class="form-group mb-3">
+                <label for="duration">Duration</label>
+                <input type="number" class="form-control" id="duration" Value="@data.MovieDuration" name="MovieDuration" placeholder="Same: 120 minutes" required>
+            </div>
+
+            <!-- تحميل صورة الفيلم -->
+            <div class="form-group mb-3">
+                <label for="movieImage">Poster URL</label>
+                    <input class="form-control" type="link" id="movieImage" Value="@data.MoviePosterURL" name="MoviePosterURL" placeholder="https:\\Poster-Image.com" required>
+            </div>
+
+            <!-- زر الإرسال -->
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-lg btn-primary">Update</button>
+            </div>
+        }
+  </form>
+  </div>

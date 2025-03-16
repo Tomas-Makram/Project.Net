@@ -1,0 +1,127 @@
+﻿@model CinemaProject.Models.UsersDB
+@{
+    Layout = "";
+}
+
+<style>
+    body {
+        background-color: #ff6600; /* لون برتقالي مميز */
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .signup-container {
+        max-width: 400px;
+        background: white;
+        padding: 50px;
+        border-radius: 50px;
+        box-shadow: 0px 50px 150px rgba(0, 0, 0, 0.2);
+    }
+
+    .signup-container h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 50px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .btn-primary {
+        width: 100%;
+        font-size: 1.1rem;
+        padding: 10px;
+        background-color: #ff6600;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #ff4500; /* لون أغمق عند التمرير */
+    }
+
+    .form-control {
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .input-group-text {
+        background-color: #ff6600;
+        color: white;
+        border: none;
+    }
+    a {
+            color: #ff6600;
+            text-decoration: none;
+       }
+     a {
+            text-decoration: underline;
+       }
+</style>
+
+<div class="signup-container">
+    <h2>إنشاء حساب جديد</h2>
+
+    <form asp-controller="Home" asp-action="Signup" method="post">
+        <!-- اسم المستخدم -->
+        <br>
+        <div class="form-group mb-3">
+            <label asp-for="UserName"></label>
+            <div class="input-group">
+                <span class="input-group-text">👤</span>
+                <input asp-for="UserName" class="form-control" required autofocus />
+            </div>
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+
+        <!-- البريد الإلكتروني -->
+        <br/>
+        <div class="form-group mb-3">
+            <label asp-for="Email"></label>
+            <div class="input-group">
+                <span class="input-group-text">📧</span>
+                <input asp-for="Email" type="email" class="form-control" required />
+            </div>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <!-- رقم الهاتف -->
+        <br/>
+        <div class="form-group mb-3">
+            <label asp-for="PhoneNumber"></label>
+            <div class="input-group">
+                <span class="input-group-text">📞</span>
+                <input asp-for="PhoneNumber" class="form-control" required />
+            </div>
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+
+        <!-- كلمة المرور -->
+        <br>
+        <div class="form-group mb-3">
+            <label asp-for="Password"></label>
+            <div class="input-group">
+                <span class="input-group-text">🔑</span>
+                <input asp-for="Password" type="password" class="form-control" required />
+            </div>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessageUser))
+        {
+                        <p style="color: red; font-weight: bold;">@ViewBag.ErrorMessageUser</p>
+        }
+        else
+        {
+            <br>
+        }
+        <!-- زر التسجيل -->
+        <button type="submit" class="btn btn-primary">تسجيل</button>
+        <p>I have a account <a asp-controller="Home" asp-action="Login">Login</a></p>
+
+    </form>
+</div>
