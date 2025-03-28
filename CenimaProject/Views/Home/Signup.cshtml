@@ -2,7 +2,10 @@
 @{
     Layout = "";
 }
-
+@inject IConfiguration configuration
+@{
+    var sitekey = configuration["ReCapchaSettings:SiteKey"];
+}
 <style>
     body {
         background-color: #ff6600; /* لون برتقالي مميز */
@@ -63,11 +66,23 @@
             text-decoration: underline;
        }
 </style>
+    <script>
+    function validateRecaptcha() {
+        var response = grecaptcha.getResponse();
+        if (response.length == 0) {
+            alert("الرجاء تأكيد أنك لست روبوت.");
+            return false;
+        }
+        document.getElementById("recaptchaResponse").value = response;
+        return true;
+    }
+</script>
 
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <div class="signup-container">
     <h2>إنشاء حساب جديد</h2>
 
-    <form asp-controller="Home" asp-action="Signup" method="post">
+    <form asp-controller="Home" asp-action="Signup" method="post" onsubmit="return validateRecaptcha();">
         <!-- اسم المستخدم -->
         <br>
         <div class="form-group mb-3">
@@ -119,6 +134,8 @@
         {
             <br>
         }
+        <div class="g-recaptcha" data-sitekey="@sitekey"></div>
+        <input type="hidden" id="recaptchaResponse" name="recaptchaResponse" />
         <!-- زر التسجيل -->
         <button type="submit" class="btn btn-primary">تسجيل</button>
         <p>I have a account <a asp-controller="Home" asp-action="Login">Login</a></p>

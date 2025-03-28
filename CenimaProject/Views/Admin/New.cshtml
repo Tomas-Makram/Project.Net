@@ -1,6 +1,6 @@
 ﻿@model UsersDB
 @{
-	ViewData["Title"] = "New Usrs";
+	ViewData["Title"] = "Users";
 }
 <form method="post">
 	<dev class="border p-3 mt-4">
@@ -32,9 +32,9 @@
 			<span asp-validation-for="Password" class="text-danger"></span>
 		</dev>
 		<dev class="mb-3">
-			<label asp-for="RulesID"></label>
-			<input asp-for="RulesID" class="form-control"/>
-			<span asp-validation-for="RulesID" class="text-danger"></span>
+			<label asp-for="Rules"></label>
+			<input asp-for="Rules" class="form-control"/>
+			<span asp-validation-for="Rules" class="text-danger"></span>
 		</dev>
 
 		<button type="Submit" class="btn btn-primary" style="width:150px">Save</button>

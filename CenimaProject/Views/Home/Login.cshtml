@@ -2,7 +2,10 @@
 @{
     Layout = "";
 }
-
+@inject IConfiguration configuration
+@{
+    var sitekey = configuration["ReCapchaSettings:SiteKey"];
+}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -10,7 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول</title>
     <style>
-        /* إعداد الصفحة */
         body, html {
             margin: 0;
             padding: 0;
@@ -20,7 +22,6 @@
             overflow: hidden;
         }
 
-        /* أيقونات متحركة في الخلفية */
         .background-icons {
             position: absolute;
             top: 0;
@@ -38,12 +39,6 @@
             animation: moveIcons 10s linear infinite;
         }
 
-        moveIcons {
-            from { transform: translateX(100%); }
-            to { transform: translateX(-100%); }
-        }
-
-        /* تصميم نموذج تسجيل الدخول */
         .login-container {
             position: relative;
             z-index: 2;
@@ -53,7 +48,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 400px;
-            margin: 10% auto;
+            margin: 3% auto;
             text-align: center;
         }
 
@@ -84,28 +79,25 @@
             transition: background-color 0.3s ease;
         }
 
-        .login-container button:hover {
+        .login-container .button:hover {
             background-color: #ff3300;
         }
-
-        .login-container p {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: #555;
-        }
-
-        .login-container a {
-            color: #ff6600;
-            text-decoration: none;
-        }
-
-        .login-container a:hover {
-            text-decoration: underline;
-        }
     </style>
+    <script>
+    function validateRecaptcha() {
+        var response = grecaptcha.getResponse();
+        if (response.length == 0) {
+            alert("الرجاء تأكيد أنك لست روبوت.");
+            return false;
+        }
+        document.getElementById("recaptchaResponse").value = response;
+        return true;
+    }
+</script>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-    <!-- أيقونات متحركة في الخلفية -->
     <div class="background-icons">
         <span style="top: 10%; left: -10%; animation-delay: 0s;">🎟️</span>
         <span style="top: 20%; left: -20%; animation-delay: 2s;">🎥</span>
@@ -115,32 +107,29 @@
         <span style="top: 60%; left: -60%; animation-delay: 10s;">🎭</span>
     </div>
 
-    <!-- نموذج تسجيل الدخول -->
     <div class="login-container">
         <h2>تسجيل الدخول</h2>
-        
-        <form method="post">
-            <dev>
-                <label asp-for="UName"> User Name</label>
-                <input asp-for="UName" id="Name" type="text" placeholder="User Name" required>
+        <form method="post" onsubmit="return validateRecaptcha();">
+            <div>
+                <label asp-for="UName">اسم المستخدم</label>
+                <input asp-for="UName" id="Name" type="text" placeholder="اسم المستخدم" required>
                 <span asp-validation-for="UName" class="text-danger"></span>
-                <script>
-                        document.getElementById("Name").focus();
-                </script>
-            </dev>
-            <dev>
-                <label asp-for="Password"></label>
-                <input asp-for="Password" type="password" placeholder="Password" required>
+            </div>
+            <div>
+                <label asp-for="Password">كلمة المرور</label>
+                <input asp-for="Password" type="password" placeholder="كلمة المرور" required>
                 <span asp-validation-for="Password" class="text-danger"></span>
                 @if (!string.IsNullOrEmpty(ViewBag.ErrorMessageUser))
                 {
-                    <p style="color: red; font-weight: bold;">@ViewBag.ErrorMessageUser</p>
+                        <p style="color: red; font-weight: bold;">@ViewBag.ErrorMessageUser</p>
                 }
-            </dev>
-           
-            <input class="button" style="text-align: center;" type="submit" value="Login"/>
-             <p>Don't have an account? <a asp-controller="Home" asp-action="Signup">Sign Up</a></p>
-        </form>
+            </div>
+            <div class="g-recaptcha" data-sitekey="@sitekey"></div>
+            <input type="hidden" id="recaptchaResponse" name="recaptchaResponse" />
+            <p>Forget Password ? <a asp-controller="Home" asp-action="ResetPassword">Reset Password</a></p>
+            <input class="button" type="submit" value="تسجيل الدخول"/>
+            <p>ليس لديك حساب؟ <a asp-controller="Home" asp-action="Signup">إنشاء حساب</a></p>
+        </form> 
     </div>
 </body>
 </html>

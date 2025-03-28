@@ -1,15 +1,113 @@
-﻿<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked="">
+﻿@model UsersDB
+@{
+    ViewData["Title"] = "Admin Setting";
+}
+<form method="post" asp-controller="Admin" asp-action="AdminFilter">
+<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+  <input type="submit" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" value="All" checked>
   <label class="btn btn-outline-primary" for="btnradio1">All</label>
-  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" checked="">
+  <input type="submit" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" value="Admin">
   <label class="btn btn-outline-primary" for="btnradio2">Admins</label>
-  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" checked="">
+  <input type="submit" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" value="Movies">
   <label class="btn btn-outline-primary" for="btnradio3">Movies</label>
 
-  <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked="">
+  <input type="submit" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" value="Halls">
   <label class="btn btn-outline-primary" for="btnradio4">Halls</label>
-  <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" checked="">
+  <input type="submit" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" value="Reservation">
   <label class="btn btn-outline-primary" for="btnradio5">Reservation</label>
-  <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off" checked="">
-  <label class="btn btn-outline-primary" for="btnradio6">Movies</label>
+  <input type="submit" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off" Value="User">
+  <label class="btn btn-outline-primary" for="btnradio6">Users</label>
 </div>
+</form>
+<br>
+</br>
+<table class="table table-hover">
+  <thead>
+    <tr class="table-dark">
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone Number</th>
+      <th scope="col">Admin In</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+        @{
+            bool x = true;
+            foreach(UsersDB users in ViewBag.Users)
+            {
+                if (users.UserId != 1)
+                {
+                   
+                    <tr class="@(x ? "table-success" : "table-active")">
+                                <th scope="row">@users.UserName</th>
+                                        <td>@users.Email</td>
+                                        <td>@users.PhoneNumber</td>
+                        @if (@Hash.VerifyPassword("Movies", @users.Rules))
+                        {
+                                        <td> Movies</td>
+                        }
+                        else if (@Hash.VerifyPassword("Admin", @users.Rules))
+                        {
+                                        <td> Admin</td>
+                        }
+                        else if (@Hash.VerifyPassword("User", @users.Rules))
+                        {
+                                                    <td> User</td>
+                        }
+                        else
+                        {
+                                                <td> UnKnow</td>
+                        }
+                                <td><form method="post" asp-controller="Admin" asp-action="DeleteAccount">
+                                    <input type="hidden" name="ID" value="@users.UserId"/>
+                                    <button class="badge rounded-pill bg-danger" type="submit" fdprocessedid="swj7nf">Delete</button></form>
+                    </tr>
+                    x = !x;
+                }
+            }
+
+        }
+    </tbody>
+</table>
+<br>
+</br>
+<form method="post" asp-controller="Admin" asp-action="AddNewAdmin" enctype="multipart/form-data">
+    <fieldset>
+        <div>
+            <label for="UserName" class="form-label mt-4">User Name</label>
+            <input type="text" name="UserName" id="UserName" class="form-control" placeholder="Enter name" required>
+        </div>
+
+        <div>
+            <label for="Email" class="form-label mt-4">Email address</label>
+            <input type="email" name="Email" id="Email" class="form-control" placeholder="Enter email" required>
+            <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+
+        <div>
+            <label for="PhoneNumber" class="form-label mt-4">Phone Number</label>
+            <input type="text" name="PhoneNumber" id="PhoneNumber" class="form-control" placeholder="Enter phone number" required>
+        </div>
+
+        <div>
+            <label for="Rules" class="form-label mt-4">Admin Rules</label>
+            <select class="form-select" name="Rules" id="Rules" required>
+                <option value="Admin">Admin</option>
+                <option value="Movies">Movies</option>
+                <option value="Halls">Halls</option>
+                <option value="Reservation">Reservation</option>
+                <option value="Ticket Buying">Ticket Buying</option>
+                <option value="Ticket Reserving">Ticket Reserving</option>
+            </select>
+        </div>
+
+       
+        <br>
+        @if (!string.IsNullOrEmpty(ViewBag.MessageError))
+        {
+            <p style="color: red; font-weight: bold;">@ViewBag.MessageError</p>
+        }
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </fieldset>
+</form>

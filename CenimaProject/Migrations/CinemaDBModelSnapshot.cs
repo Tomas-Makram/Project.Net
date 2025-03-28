@@ -62,23 +62,6 @@ namespace CinemaProject.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("CinemaProject.Models.RulesDB", b =>
-                {
-                    b.Property<int>("RulesID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RulesID"));
-
-                    b.Property<string>("RulesName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RulesID");
-
-                    b.ToTable("Rules");
-                });
-
             modelBuilder.Entity("CinemaProject.Models.UsersDB", b =>
                 {
                     b.Property<int>("UserId")
@@ -99,8 +82,9 @@ namespace CinemaProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RulesID")
-                        .HasColumnType("int");
+                    b.Property<string>("Rules")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()

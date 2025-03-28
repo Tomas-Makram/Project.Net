@@ -20,6 +20,6 @@ namespace CinemaProject.Models
         public string PhoneNumber { get; set; }
 
         [Required]
-        public int RulesID { get; set; }
+        public string Rules { get; set; }
     }
 }

@@ -1,5 +1,7 @@
-﻿using CinemaProject.Models;
+﻿using CinemaProject;
+using CinemaProject.Models;
 using Microsoft.EntityFrameworkCore;
+using FirebaseAdmin;
 
 var builder = WebApplication.CreateBuilder(args);
 

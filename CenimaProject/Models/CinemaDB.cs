@@ -10,7 +10,7 @@ namespace CinemaProject.Models
 
         }
         public DbSet<UsersDB> Users { get; set; }
-        public DbSet<RulesDB> Rules { get; set; }
+      
         public DbSet<MoviesDB> Movies { get; set; }
 
     }

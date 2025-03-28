@@ -22,11 +22,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @if (ViewBag.RuleName == "Movies")
+                        @if (Hash.VerifyPassword("Movies", ViewBag.RuleName))
                         {
                               <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Movies">Movies</a>
                             </li>
+                        }
+                        @if (Hash.VerifyPassword("Admin", ViewBag.RuleName))
+                        {
+                             <li class="nav-item">
+                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Admin">Admins</a>
+                             </li>
                         }
                          <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Setting">Setting</a>
